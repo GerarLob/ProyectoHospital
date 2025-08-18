@@ -1,0 +1,21 @@
+# Sistema / temporales
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Entornos
+.env
+
+# Dependencias
+vendor/
+node_modules/
+
+# Subidas (mantener .gitkeep)
+public/uploads/*
+!public/uploads/.gitkeep
+
+# Scripts dev que no deben subirse
+public/dev_reset_webmaster.php
