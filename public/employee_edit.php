@@ -41,22 +41,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $raw = preg_replace('/^data:image\/(png|jpeg);base64,/', '', $_POST['photo_data']);
                 $imageData = base64_decode($raw);
             }
-            $img = @imagecreatefromstring($imageData);
-            if ($img) {
-                $w = imagesx($img); $h = imagesy($img);
-                $max = 900; $scale = min($max / max($w,$h), 1);
-                $nw = (int)($w*$scale); $nh = (int)($h*$scale);
-                $dst = imagecreatetruecolor($nw, $nh);
-                imagecopyresampled($dst, $img, 0, 0, 0, 0, $nw, $nh, $w, $h);
-                imagejpeg($dst, $dest, 85);
-                imagedestroy($dst); imagedestroy($img);
-                $rel = 'uploads/' . basename($dest);
-                $pdo->prepare('UPDATE employees SET photo_path = ? WHERE id = ?')->execute([$rel, $id]);
+            if ($imageData !== false) {
+                if (function_exists('imagecreatefromstring')) {
+                    $img = @imagecreatefromstring($imageData);
+                    if ($img) {
+                        $w = imagesx($img); $h = imagesy($img);
+                        $max = 900; $scale = min($max / max($w,$h), 1);
+                        $nw = (int)($w*$scale); $nh = (int)($h*$scale);
+                        $dst = imagecreatetruecolor($nw, $nh);
+                        imagecopyresampled($dst, $img, 0, 0, 0, 0, $nw, $nh, $w, $h);
+                        imagejpeg($dst, $dest, 85);
+                        imagedestroy($dst); imagedestroy($img);
+                        $rel = 'uploads/' . basename($dest);
+                        $pdo->prepare('UPDATE employees SET photo_path = ? WHERE id = ?')->execute([$rel, $id]);
+                    }
+                } else {
+                    file_put_contents($dest, $imageData);
+                    $rel = 'uploads/' . basename($dest);
+                    $pdo->prepare('UPDATE employees SET photo_path = ? WHERE id = ?')->execute([$rel, $id]);
+                }
             }
         }
 
         audit_log($_SESSION['user_id'] ?? null, 'employee.update', ['id' => $id]);
-        header('Location: employees.php?msg=Empleado%20actualizado');
+        header('Location: carnes.php?msg=Empleado%20actualizado');
         exit;
     }
 }
@@ -74,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <header>
     <h1>Editar empleado</h1>
     <nav>
-        <a href="employees.php">Volver</a>
+        <a href="carnes.php">Volver</a>
     </nav>
 </header>
 <main>

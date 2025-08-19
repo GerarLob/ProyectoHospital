@@ -23,7 +23,7 @@ require_once __DIR__ . '/../config/config.php';
         <h1>Panel principal</h1>
         <nav>
             <a href="users.php">Usuarios</a>
-            <a href="employees.php">Empleados</a>
+            <a href="carnes.php">Carnés</a>
             <a href="visitors.php">Visitantes</a>
             <a href="logout.php">Cerrar sesión</a>
         </nav>

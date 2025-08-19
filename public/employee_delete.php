@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $pdo->prepare('DELETE FROM employees WHERE id = ?');
     $stmt->execute([$id]);
     audit_log($_SESSION['user_id'] ?? null, 'employee.delete', ['id' => $id]);
-    header('Location: employees.php?msg=Empleado%20eliminado');
+    header('Location: carnes.php?msg=Empleado%20eliminado');
     exit;
 }
 
@@ -33,7 +33,7 @@ if (!$e) { echo 'Empleado no encontrado'; exit; }
 <header>
     <h1>Eliminar empleado</h1>
     <nav>
-        <a href="employees.php">Cancelar</a>
+        <a href="carnes.php">Cancelar</a>
     </nav>
 </header>
 <main>

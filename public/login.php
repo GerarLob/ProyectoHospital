@@ -34,9 +34,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Login - Hospital</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="auth">
-    <form class="card" method="post">
-        <h1>Iniciar sesión</h1>
+<body class="auth glass-bg">
+    <form class="card glass" method="post">
+        <h1 class="title" style="margin-top:0">Iniciar sesión</h1>
         <?php if ($error): ?>
             <div class="alert"><?= htmlspecialchars($error) ?></div>
         <?php endif; ?>

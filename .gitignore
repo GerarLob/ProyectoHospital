@@ -19,3 +19,4 @@ public/uploads/*
 
 # Scripts dev que no deben subirse
 public/dev_reset_webmaster.php
+

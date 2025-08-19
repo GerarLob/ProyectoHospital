@@ -12,7 +12,17 @@ class DatabaseConnection {
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                 PDO::ATTR_EMULATE_PREPARES => false,
             ];
-            self::$connection = new PDO($dsn, DB_USER, DB_PASS, $options);
+            try {
+                self::$connection = new PDO($dsn, DB_USER, DB_PASS, $options);
+            } catch (PDOException $e) {
+                // Fallback común en XAMPP: usuario root sin contraseña
+                $isAuthError = (string)$e->getCode() === '1045' || stripos($e->getMessage(), 'Access denied') !== false;
+                if ($isAuthError && DB_USER === 'root' && DB_PASS !== '') {
+                    self::$connection = new PDO($dsn, 'root', '', $options);
+                } else {
+                    throw $e;
+                }
+            }
         }
         return self::$connection;
     }
