@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				}
 
 				audit_log($_SESSION['user_id'] ?? null, 'employee.create', ['id' => $employeeId]);
-				$message = 'Empleado creado';
+				$message = 'Carné creado';
 			} catch (PDOException $e) {
 				$error = 'Error: ' . $e->getMessage();
 			}
@@ -129,24 +129,25 @@ if (is_file($companyLogoAbs)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Empleados</title>
+    <title>Carnés</title>
     <link rel="stylesheet" href="styles.css">
     <style>.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}</style>
     </head>
-<body>
+<body class="glass-bg">
 <header>
-    <h1>Empleados</h1>
+    <h1>Carnés</h1>
     <nav>
         <a href="index.php">Inicio</a>
         <a href="logout.php">Salir</a>
     </nav>
 </header>
 <main>
+    <div class="page-grid">
     <?php $msg = $_GET['msg'] ?? ''; if (!empty($message) || $msg): ?><div class="alert" style="background:#e7f7ee;border-color:#b4e2c6;color:#0a6d2a;"><?= htmlspecialchars($message ?: $msg) ?></div><?php endif; ?>
     <?php if (!empty($error)): ?><div class="alert"><?= htmlspecialchars($error) ?></div><?php endif; ?>
 
     <?php if ($canManage): ?>
-    <section class="card glass card--fluid" style="margin-bottom:20px;">
+    <section class="card glass card--fluid" style="margin-bottom:20px; grid-column:1 / -1;">
         <h2 class="title" style="margin-top:0">Configuración del carné</h2>
         <form method="post" enctype="multipart/form-data" style="margin-bottom:12px">
             <input type="hidden" name="action" value="upload_logo">
@@ -167,8 +168,8 @@ if (is_file($companyLogoAbs)) {
     <?php endif; ?>
 
     <?php if ($canManage): ?>
-    <section class="card glass card--fluid" style="margin-bottom:20px;">
-        <h2 class="title" style="margin-top:0">Nuevo empleado</h2>
+    <section class="card glass" style="margin-bottom:20px; grid-column:1; max-width:420px">
+        <h2 class="title" style="margin-top:0">Nuevo carné</h2>
         <form method="post" enctype="multipart/form-data">
             <input type="hidden" name="action" value="create_employee">
             <div class="grid">
@@ -274,9 +275,9 @@ if (is_file($companyLogoAbs)) {
     }
     </script>
 
-    <section class="card glass card--fluid" style="margin-bottom:20px;">
+    <section class="card glass card--fluid" style="margin-bottom:20px; grid-column:1 / -1;">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px">
-            <h2 class="title" style="margin:0">Lista de empleados</h2>
+            <h2 class="title" style="margin:0">Lista de carnés</h2>
             <input id="search" type="text" placeholder="Buscar por nombre, DPI o código" style="max-width:280px">
         </div>
         <table class="table-modern" id="emp_table">
@@ -323,6 +324,7 @@ if (is_file($companyLogoAbs)) {
             </tbody>
         </table>
     </section>
+</div>
 </main>
 </body>
 </html>

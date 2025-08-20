@@ -8,7 +8,8 @@ const DB_USER = 'root';
 const DB_PASS = 'hospital2025';
 
 // URL base (ajústala si instalas en subcarpeta)
-const APP_BASE_PATH = '/';
+// Para XAMPP con alias /ProyectoHospital apuntando a /public
+const APP_BASE_PATH = '/ProyectoHospital';
 
 // Zona horaria
 date_default_timezone_set('America/Guatemala');

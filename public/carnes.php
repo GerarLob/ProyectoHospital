@@ -251,7 +251,7 @@ if (is_file($backImageAbs)) { $backImageRel = 'uploads/card_back_image.png?v=' .
 	.preview-card{width:220px;height:320px;background:#fff;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.1);padding:10px}
 	</style>
 </head>
-<body>
+<body class="glass-bg">
 <header>
 	<h1>Carnés</h1>
 	<nav>
@@ -260,8 +260,8 @@ if (is_file($backImageAbs)) { $backImageRel = 'uploads/card_back_image.png?v=' .
 	</nav>
 </header>
 <main>
-	<?php $msg = $_GET['msg'] ?? ''; if (!empty($message) || $msg): ?><div class="alert" style="background:#e7f7ee;border-color:#b4e2c6;color:#0a6d2a;"><?= htmlspecialchars($message ?: $msg) ?></div><?php endif; ?>
-	<?php if (!empty($error)): ?><div class="alert"><?= htmlspecialchars($error) ?></div><?php endif; ?>
+	<?php $msg = $_GET['msg'] ?? ''; if (!empty($message) || $msg): ?><div class="alert" style="background:#e7f7ee;border-color:#b4e2c6;color:#0a6d2a;<?= '' ?>"><?php echo htmlspecialchars($message ?: $msg) ?></div><?php endif; ?>
+	<?php if (!empty($error)): ?><div class="alert"><?php echo htmlspecialchars($error) ?></div><?php endif; ?>
 
 	<?php if ($canManage): ?>
 	<section class="card glass card--fluid" style="margin-bottom:20px;">
@@ -342,15 +342,15 @@ if (is_file($backImageAbs)) { $backImageRel = 'uploads/card_back_image.png?v=' .
 				<form method="post" enctype="multipart/form-data" style="margin-bottom:12px">
 					<input type="hidden" name="action" value="save_front">
 					<label>Título
-						<input type="text" name="front_title" value="<?= htmlspecialchars($cardConfig['front_title']) ?>">
+						<input type="text" name="front_title" value="<?php echo htmlspecialchars($cardConfig['front_title']) ?>">
 					</label>
 					<label>Subtítulo
-						<input type="text" name="front_subtitle" value="<?= htmlspecialchars($cardConfig['front_subtitle']) ?>">
+						<input type="text" name="front_subtitle" value="<?php echo htmlspecialchars($cardConfig['front_subtitle']) ?>">
 					</label>
 					<label>Logo (opcional)
 						<input type="file" name="company_logo" accept="image/*">
 					</label>
-					<?php if ($companyLogoRel): ?><div style="margin-top:8px"><img src="<?= htmlspecialchars($companyLogoRel) ?>" alt="logo" style="height:48px"></div><?php endif; ?>
+					<?php if ($companyLogoRel): ?><div style="margin-top:8px"><img src="<?php echo htmlspecialchars($companyLogoRel) ?>" alt="logo" style="height:48px"></div><?php endif; ?>
 					<button class="btn" type="submit">Guardar frontal</button>
 				</form>
 			</div>
@@ -359,7 +359,7 @@ if (is_file($backImageAbs)) { $backImageRel = 'uploads/card_back_image.png?v=' .
 				<form method="post" enctype="multipart/form-data">
 					<input type="hidden" name="action" value="save_back">
 					<label>Notas/Recomendaciones
-						<input type="text" name="back_notes" value="<?= htmlspecialchars($cardConfig['back_notes']) ?>">
+						<input type="text" name="back_notes" value="<?php echo htmlspecialchars($cardConfig['back_notes']) ?>">
 					</label>
 					<label>Logo trasero (opcional)
 						<input type="file" name="back_logo" accept="image/*">
@@ -368,9 +368,9 @@ if (is_file($backImageAbs)) { $backImageRel = 'uploads/card_back_image.png?v=' .
 						<input type="file" name="back_image" accept="image/*">
 					</label>
 					<?php if ($backImageRel): ?>
-						<div style="margin-top:8px"><img src="<?= htmlspecialchars($backImageRel) ?>" alt="img" style="height:80px"></div>
+						<div style="margin-top:8px"><img src="<?php echo htmlspecialchars($backImageRel) ?>" alt="img" style="height:80px"></div>
 					<?php elseif ($backLogoRel): ?>
-						<div style="margin-top:8px"><img src="<?= htmlspecialchars($backLogoRel) ?>" alt="logo" style="height:48px"></div>
+						<div style="margin-top:8px"><img src="<?php echo htmlspecialchars($backLogoRel) ?>" alt="logo" style="height:48px"></div>
 					<?php endif; ?>
 					<button class="btn" type="submit">Guardar trasera</button>
 				</form>
@@ -454,27 +454,27 @@ if (is_file($backImageAbs)) { $backImageRel = 'uploads/card_back_image.png?v=' .
 			<tbody>
 			<?php foreach ($employees as $e): ?>
 				<tr>
-					<td data-label="ID"><?= (int)$e['id'] ?></td>
-					<td data-label="Código"><?= htmlspecialchars($e['employee_code']) ?></td>
-					<td data-label="Nombre"><?= htmlspecialchars($e['first_name'] . ' ' . $e['last_name']) ?></td>
-					<td data-label="DPI"><?= htmlspecialchars($e['dpi']) ?></td>
-					<td data-label="Servicio"><?= htmlspecialchars($e['service']) ?></td>
-					<td data-label="Región"><?= htmlspecialchars($e['region']) ?></td>
-					<td data-label="Vehículos"><?= $e['has_vehicle'] ? ((int)$e['vehicles_count'] . ' (' . htmlspecialchars($e['plate_number'] ?? '') . ')') : 'No' ?></td>
-					<td data-label="Activo"><span class="badge" style="background:<?= $e['active'] ? '#dcfce7' : '#fee2e2' ?>;color:<?= $e['active'] ? '#166534' : '#991b1b' ?>;border:1px solid <?= $e['active'] ? '#86efac' : '#fecaca' ?>;"><?= $e['active'] ? 'Activo' : 'Inactivo' ?></span></td>
-					<td data-label="Foto"><?php if ($e['photo_path']): ?><img src="<?= htmlspecialchars($e['photo_path']) ?>" alt="foto" style="height:40px;border-radius:6px"><?php endif; ?></td>
+					<td data-label="ID"><?php echo (int)$e['id'] ?></td>
+					<td data-label="Código"><?php echo htmlspecialchars($e['employee_code']) ?></td>
+					<td data-label="Nombre"><?php echo htmlspecialchars($e['first_name'] . ' ' . $e['last_name']) ?></td>
+					<td data-label="DPI"><?php echo htmlspecialchars($e['dpi']) ?></td>
+					<td data-label="Servicio"><?php echo htmlspecialchars($e['service']) ?></td>
+					<td data-label="Región"><?php echo htmlspecialchars($e['region']) ?></td>
+					<td data-label="Vehículos"><?php echo $e['has_vehicle'] ? ((int)$e['vehicles_count'] . ' (' . htmlspecialchars($e['plate_number'] ?? '') . ')') : 'No' ?></td>
+					<td data-label="Activo"><span class="badge" style="background:<?php echo $e['active'] ? '#dcfce7' : '#fee2e2' ?>;color:<?php echo $e['active'] ? '#166534' : '#991b1b' ?>;border:1px solid <?php echo $e['active'] ? '#86efac' : '#fecaca' ?>;"><?php echo $e['active'] ? 'Activo' : 'Inactivo' ?></span></td>
+					<td data-label="Foto"><?php if ($e['photo_path']): ?><img src="<?php echo htmlspecialchars($e['photo_path']) ?>" alt="foto" style="height:40px;border-radius:6px"><?php endif; ?></td>
 					<td class="actions" data-label="Acciones">
 						<?php if ($canManage): ?>
-							<a class="btn btn-outline" href="employee_edit.php?id=<?= (int)$e['id'] ?>">Editar</a>
-							<a class="btn btn-outline" href="employee_delete.php?id=<?= (int)$e['id'] ?>">Eliminar</a>
-							<a class="btn btn-outline" href="carnes.php?toggle=<?= (int)$e['id'] ?>"><?= $e['active'] ? 'Desactivar' : 'Activar' ?></a>
-							<a class="btn" href="card.php?id=<?= (int)$e['id'] ?>&o=vertical" target="_blank">Carné V</a>
-							<a class="btn" href="card.php?id=<?= (int)$e['id'] ?>&o=horizontal" target="_blank">Carné H</a>
-							<a class="btn" href="card.php?id=<?= (int)$e['id'] ?>&o=horizontal&s=back" target="_blank">Carné T</a>
+							<a class="btn btn-outline" href="employee_edit.php?id=<?php echo (int)$e['id'] ?>">Editar</a>
+							<a class="btn btn-outline" href="employee_delete.php?id=<?php echo (int)$e['id'] ?>">Eliminar</a>
+							<a class="btn btn-outline" href="carnes.php?toggle=<?php echo (int)$e['id'] ?>"><?php echo $e['active'] ? 'Desactivar' : 'Activar' ?></a>
+							<a class="btn" href="card.php?id=<?php echo (int)$e['id'] ?>&o=vertical" target="_blank">Carné V</a>
+							<a class="btn" href="card.php?id=<?php echo (int)$e['id'] ?>&o=horizontal" target="_blank">Carné H</a>
+							<a class="btn" href="card.php?id=<?php echo (int)$e['id'] ?>&o=horizontal&s=back" target="_blank">Carné T</a>
 						<?php else: ?>
-							<a class="btn" href="card.php?id=<?= (int)$e['id'] ?>&o=vertical" target="_blank">Ver V</a>
-							<a class="btn" href="card.php?id=<?= (int)$e['id'] ?>&o=horizontal" target="_blank">Ver H</a>
-							<a class="btn" href="card.php?id=<?= (int)$e['id'] ?>&o=horizontal&s=back" target="_blank">Ver T</a>
+							<a class="btn" href="card.php?id=<?php echo (int)$e['id'] ?>&o=vertical" target="_blank">Ver V</a>
+							<a class="btn" href="card.php?id=<?php echo (int)$e['id'] ?>&o=horizontal" target="_blank">Ver H</a>
+							<a class="btn" href="card.php?id=<?php echo (int)$e['id'] ?>&o=horizontal&s=back" target="_blank">Ver T</a>
 						<?php endif; ?>
 					</td>
 				</tr>
@@ -537,5 +537,3 @@ if (search && table) {
 </script>
 </body>
 </html>
-
-

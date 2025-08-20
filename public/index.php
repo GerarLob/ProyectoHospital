@@ -29,7 +29,7 @@ require_once __DIR__ . '/../config/config.php';
         </nav>
     </header>
     <main>
-        <section>
+        <section class="card glass">
             <h2>Bienvenido</h2>
             <p>Usa el menú para administrar el sistema de carnés y personal.</p>
         </section>

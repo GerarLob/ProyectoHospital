@@ -1,0 +1,13 @@
+[1mdiff --git a/public/carnes.php b/public/carnes.php[m
+[1mindex 78f7849..9a863ed 100644[m
+[1m--- a/public/carnes.php[m
+[1m+++ b/public/carnes.php[m
+[36m@@ -536,6 +536,4 @@[m [mif (search && table) {[m
+ }[m
+ </script>[m
+ </body>[m
+[31m-</html>[m
+[31m-[m
+[31m-[m
+[32m+[m[32m</html>[m
+\ No newline at end of file[m

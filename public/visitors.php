@@ -88,7 +88,7 @@ $badges = $badges->fetchAll();
     <?php if (!empty($message)): ?><div class="alert" style="background:#e7f7ee;border-color:#b4e2c6;color:#0a6d2a;"><?= htmlspecialchars($message) ?></div><?php endif; ?>
     <?php if (!empty($error)): ?><div class="alert"><?= htmlspecialchars($error) ?></div><?php endif; ?>
 
-    <section class="card" style="margin-bottom:20px;">
+    <section class="card glass" style="margin-bottom:20px;">
         <h2>Asignar carné</h2>
         <form method="post" class="row">
             <label>Carné
@@ -118,7 +118,7 @@ $badges = $badges->fetchAll();
         </form>
     </section>
 
-    <section class="card" style="margin-bottom:20px;">
+    <section class="card glass" style="margin-bottom:20px;">
         <h2>Devolver carné</h2>
         <form method="post" class="row">
             <label>Carné ocupado
@@ -132,8 +132,8 @@ $badges = $badges->fetchAll();
         </form>
     </section>
 
-    <section>
-        <h2>Carnés de tipo: <?= htmlspecialchars($type) ?></h2>
+    <section class="card glass card--fluid" style="margin-bottom:20px;">
+        <h2 class="title" style="margin-top:0">Carnés de tipo: <?= htmlspecialchars($type) ?></h2>
         <div class="grid">
             <?php foreach ($badges as $b): ?>
                 <div class="badge" style="background: <?= htmlspecialchars($b['color']) ?>;opacity: <?= $b['status']==='ocupado' ? '0.4' : '1' ?>" title="<?= htmlspecialchars($b['status']) ?>"><?= (int)$b['badge_number'] ?></div>
