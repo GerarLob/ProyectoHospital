@@ -117,12 +117,90 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $canManage) {
 		case 'save_front':
 			$cardConfig['front_title'] = trim($_POST['front_title'] ?? '');
 			$cardConfig['front_subtitle'] = trim($_POST['front_subtitle'] ?? '');
+			// Guardar logo frontal si se envía en este formulario
+			if (!empty($_FILES['company_logo']['tmp_name'])) {
+				$targetDir = __DIR__ . '/uploads/';
+				if (!is_dir($targetDir)) { @mkdir($targetDir, 0775, true); }
+				$dest = $targetDir . 'company_logo.png';
+				$rawData = file_get_contents($_FILES['company_logo']['tmp_name']);
+				if ($rawData !== false) {
+					if (function_exists('imagecreatefromstring')) {
+						$img = @imagecreatefromstring($rawData);
+						if ($img) {
+							$w = imagesx($img); $h = imagesy($img);
+							$max = 600; $scale = min($max / max($w,$h), 1);
+							$nw = (int)($w*$scale); $nh = (int)($h*$scale);
+							$dst = imagecreatetruecolor($nw, $nh);
+							$white = imagecolorallocate($dst, 255,255,255);
+							imagefilledrectangle($dst, 0,0,$nw,$nh, $white);
+							imagecopyresampled($dst, $img, 0, 0, 0, 0, $nw, $nh, $w, $h);
+							imagepng($dst, $dest, 6);
+							imagedestroy($dst); imagedestroy($img);
+						} else { $error = $error ?? 'No se pudo procesar la imagen del logo'; }
+					} else {
+						if (!@move_uploaded_file($_FILES['company_logo']['tmp_name'], $dest)) {
+							file_put_contents($dest, $rawData);
+						}
+					}
+				}
+			}
 			@file_put_contents($configPath, json_encode($cardConfig, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
 			$message = 'Configuración frontal guardada';
 			break;
 		case 'save_back':
 			$cardConfig['back_notes'] = trim($_POST['back_notes'] ?? '');
-			// logo e imagen trasera ya gestionados arriba...
+			$targetDir = __DIR__ . '/uploads/';
+			if (!is_dir($targetDir)) { @mkdir($targetDir, 0775, true); }
+			// Logo trasero
+			if (!empty($_FILES['back_logo']['tmp_name'])) {
+				$dest = $targetDir . 'company_back.png';
+				$rawData = file_get_contents($_FILES['back_logo']['tmp_name']);
+				if ($rawData !== false) {
+					if (function_exists('imagecreatefromstring')) {
+						$img = @imagecreatefromstring($rawData);
+						if ($img) {
+							$w = imagesx($img); $h = imagesy($img);
+							$max = 600; $scale = min($max / max($w,$h), 1);
+							$nw = (int)($w*$scale); $nh = (int)($h*$scale);
+							$dst = imagecreatetruecolor($nw, $nh);
+							$white = imagecolorallocate($dst, 255,255,255);
+							imagefilledrectangle($dst, 0,0,$nw,$nh, $white);
+							imagecopyresampled($dst, $img, 0, 0, 0, 0, $nw, $nh, $w, $h);
+							imagepng($dst, $dest, 6);
+							imagedestroy($dst); imagedestroy($img);
+						} else { $error = $error ?? 'No se pudo procesar el logo trasero'; }
+					} else {
+						if (!@move_uploaded_file($_FILES['back_logo']['tmp_name'], $dest)) {
+							file_put_contents($dest, $rawData);
+						}
+					}
+				}
+			}
+			// Imagen trasera
+			if (!empty($_FILES['back_image']['tmp_name'])) {
+				$destImg = $targetDir . 'card_back_image.png';
+				$rawDataImg = file_get_contents($_FILES['back_image']['tmp_name']);
+				if ($rawDataImg !== false) {
+					if (function_exists('imagecreatefromstring')) {
+						$img = @imagecreatefromstring($rawDataImg);
+						if ($img) {
+							$w = imagesx($img); $h = imagesy($img);
+							$max = 900; $scale = min($max / max($w,$h), 1);
+							$nw = (int)($w*$scale); $nh = (int)($h*$scale);
+							$dst = imagecreatetruecolor($nw, $nh);
+							$white = imagecolorallocate($dst, 255,255,255);
+							imagefilledrectangle($dst, 0,0,$nw,$nh, $white);
+							imagecopyresampled($dst, $img, 0, 0, 0, 0, $nw, $nh, $w, $h);
+							imagepng($dst, $destImg, 6);
+							imagedestroy($dst); imagedestroy($img);
+						} else { $error = $error ?? 'No se pudo procesar la imagen trasera'; }
+					} else {
+						if (!@move_uploaded_file($_FILES['back_image']['tmp_name'], $destImg)) {
+							file_put_contents($destImg, $rawDataImg);
+						}
+					}
+				}
+			}
 			@file_put_contents($configPath, json_encode($cardConfig, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
 			$message = 'Configuración trasera guardada';
 			break;
